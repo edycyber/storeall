@@ -110,6 +110,7 @@
             justify-content: space-between;
             list-style-type: none;
             padding: 0;
+            overflow-x: auto;
         }
 
         nav ul li {
@@ -121,6 +122,12 @@
             border: none;
             color: white;
             cursor: pointer;
+        }
+
+        nav ul li button.active {
+            background-color: #2563eb;
+            border-radius: 5px;
+            padding: 5px 10px;
         }
 
         .product-grid {
@@ -153,6 +160,16 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            nav ul {
+                flex-direction: row;
+                overflow-x: scroll;
+            }
         }
     </style>
 </head>
@@ -190,6 +207,9 @@
 
         <!-- Product Editor -->
         <div class="product-editor">
+            <label for="productCategory">Product Category</label>
+            <input type="text" id="productCategory" placeholder="Enter product category" value="Home">
+
             <label for="productTitle">Product Title</label>
             <input type="text" id="productTitle" placeholder="Enter product title" value="Smart Speaker">
 
@@ -206,7 +226,6 @@
             <input type="text" id="productButtonUrl" placeholder="Enter product button URL" value="https://www.amazon.com/s?k=smart+speaker">
 
             <button onclick="addProduct()">Add Product</button>
-            <button onclick="updatePreview()">Update Preview</button>
         </div>
 
         <!-- Footer Editor -->
@@ -214,7 +233,7 @@
             <label for="footerText">Footer Text</label>
             <textarea id="footerText">Your one-stop shop for the best deals on everything you need.</textarea>
 
-            <button onclick="updatePreview()">Update Preview</button>
+            <button onclick="updatePreview()">Update Footer</button>
         </div>
 
         <!-- Download Button -->
@@ -232,13 +251,13 @@
 
             <nav>
                 <ul id="navList">
-                    <li><button>Home</button></li>
-                    <li><button>Technology</button></li>
-                    <li><button>Fashion</button></li>
-                    <li><button>Toys</button></li>
-                    <li><button>Travel</button></li>
-                    <li><button>Rudeness</button></li>
-                    <li><button>Tiny Home</button></li>
+                    <li><button class="active" onclick="showCategory('Home')">Home</button></li>
+                    <li><button onclick="showCategory('Technology')">Technology</button></li>
+                    <li><button onclick="showCategory('Fashion')">Fashion</button></li>
+                    <li><button onclick="showCategory('Toys')">Toys</button></li>
+                    <li><button onclick="showCategory('Travel')">Travel</button></li>
+                    <li><button onclick="showCategory('Rudeness')">Rudeness</button></li>
+                    <li><button onclick="showCategory('Tiny Home')">Tiny Home</button></li>
                 </ul>
             </nav>
 
@@ -248,12 +267,7 @@
             </div>
 
             <main class="product-grid" id="productGrid">
-                <div class="product-card">
-                    <img id="previewProductImage" src="https://via.placeholder.com/300x200" alt="Product Image">
-                    <h3 id="previewProductTitle">Smart Speaker</h3>
-                    <p id="previewProductDescription">Voice-controlled home assistant</p>
-                    <a id="previewProductButton" href="https://www.amazon.com/s?k=smart+speaker" target="_blank">View Details on Amazon</a>
-                </div>
+                <!-- Products will be dynamically added here -->
             </main>
 
             <footer>
@@ -270,6 +284,18 @@
 </div>
 
 <script>
+    const products = {
+        'Home': [],
+        'Technology': [],
+        'Fashion': [],
+        'Toys': [],
+        'Travel': [],
+        'Rudeness': [],
+        'Tiny Home': []
+    };
+
+    let activeCategory = 'Home';
+
     function updatePreview() {
         // Header
         document.getElementById('previewHeaderTitle').textContent = document.getElementById('headerTitle').value;
@@ -286,30 +312,62 @@
         const navItems = document.getElementById('navItems').value.split(',');
         navItems.forEach(item => {
             const li = document.createElement('li');
-            li.innerHTML = `<button>${item.trim()}</button>`;
+            li.innerHTML = `<button onclick="showCategory('${item.trim()}')">${item.trim()}</button>`;
             navList.appendChild(li);
         });
+
+        showCategory(activeCategory); // Refresh products when navigation updates
+    }
+
+    function showCategory(category) {
+        activeCategory = category;
+        const productGrid = document.getElementById('productGrid');
+        productGrid.innerHTML = '';
+
+        // Highlight active category
+        const buttons = document.querySelectorAll('nav ul li button');
+        buttons.forEach(button => {
+            button.classList.remove('active');
+            if (button.textContent === category) {
+                button.classList.add('active');
+            }
+        });
+
+        // Display products for the active category
+        if (products[category].length > 0) {
+            products[category].forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <img src="${product.imageUrl}" alt="${product.title}">
+                    <h3>${product.title}</h3>
+                    <p>${product.description}</p>
+                    <a href="${product.buttonUrl}" target="_blank">${product.buttonText}</a>
+                `;
+                productGrid.appendChild(productCard);
+            });
+        } else {
+            productGrid.innerHTML = `<p>No products available for this category.</p>`;
+        }
     }
 
     function addProduct() {
-        const productGrid = document.getElementById('productGrid');
-        const productCard = document.createElement('div');
-        productCard.className = 'product-card';
-
-        const imageUrl = document.getElementById('productImageUrl').value || 'https://via.placeholder.com/300x200';
+        const category = document.getElementById('productCategory').value || 'Home';
         const title = document.getElementById('productTitle').value || 'New Product';
         const description = document.getElementById('productDescription').value || 'Product description';
+        const imageUrl = document.getElementById('productImageUrl').value || 'https://via.placeholder.com/300x200';
         const buttonText = document.getElementById('productButtonText').value || 'Buy Now';
         const buttonUrl = document.getElementById('productButtonUrl').value || '#';
 
-        productCard.innerHTML = `
-            <img src="${imageUrl}" alt="${title}">
-            <h3>${title}</h3>
-            <p>${description}</p>
-            <a href="${buttonUrl}" target="_blank">${buttonText}</a>
-        `;
+        products[category].push({
+            title,
+            description,
+            imageUrl,
+            buttonText,
+            buttonUrl
+        });
 
-        productGrid.appendChild(productCard);
+        showCategory(category); // Update the preview with the new product
     }
 
     function downloadHtml() {
@@ -376,5 +434,3 @@
 
 </body>
 </html>
-
-
