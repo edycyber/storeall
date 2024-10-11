@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sparrow AI</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f1f5f9;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 50%;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .editor-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .editor {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #1e40af;
+            background-color: #fff;
+            border-radius: 8px;
+        }
+
+        .preview {
+            width: 100%;
+            padding: 10px;
+            background-color: #fff;
+            border: 2px solid #1e40af;
+            border-radius: 8px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #1e40af;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2563eb;
+        }
+
+        #download-btn {
+            margin-top: 20px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Sparrow AI</h1>
+    <div class="editor-container">
+        <!-- Editor Section -->
+        <div class="container">
+            <h2>Editor</h2>
+            <div class="editor">
+                <label for="productName">Product Name</label>
+                <input type="text" id="productName" placeholder="Enter product name">
+
+                <label for="productDescription">Product Description</label>
+                <textarea id="productDescription" placeholder="Enter product description"></textarea>
+
+                <label for="buttonText">Button Text</label>
+                <input type="text" id="buttonText" placeholder="Enter button text">
+
+                <label for="buttonUrl">Button URL</label>
+                <input type="text" id="buttonUrl" placeholder="Enter button URL">
+
+                <button onclick="updatePreview()">Update Preview</button>
+            </div>
+        </div>
+
+        <!-- Preview Section -->
+        <div class="container">
+            <h2>Preview</h2>
+            <div class="preview" id="preview">
+                <div class="product-card">
+                    <h3 id="previewProductName">Sample Product</h3>
+                    <p id="previewProductDescription">This is a description of the product.</p>
+                    <a id="previewButton" href="#" target="_blank">Buy Now</a>
+                </div>
+            </div>
+            <button id="download-btn" onclick="downloadHtml()">Download as index.html</button>
+        </div>
+    </div>
+
+    <script>
+        function updatePreview() {
+            // Get values from editor fields
+            const productName = document.getElementById('productName').value || 'Sample Product';
+            const productDescription = document.getElementById('productDescription').value || 'This is a description of the product.';
+            const buttonText = document.getElementById('buttonText').value || 'Buy Now';
+            const buttonUrl = document.getElementById('buttonUrl').value || '#';
+
+            // Update preview
+            document.getElementById('previewProductName').textContent = productName;
+            document.getElementById('previewProductDescription').textContent = productDescription;
+            const previewButton = document.getElementById('previewButton');
+            previewButton.textContent = buttonText;
+            previewButton.href = buttonUrl;
+        }
+
+        function downloadHtml() {
+            const htmlContent = `
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Online Store</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #f1f5f9;
+                            padding: 20px;
+                        }
+                        .product-card {
+                            background-color: white;
+                            padding: 20px;
+                            border-radius: 8px;
+                            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                            max-width: 300px;
+                        }
+                        .product-card h3 {
+                            margin: 0 0 10px;
+                        }
+                        .product-card p {
+                            margin: 0 0 15px;
+                        }
+                        .product-card a {
+                            background-color: #1e40af;
+                            color: white;
+                            padding: 10px 20px;
+                            text-decoration: none;
+                            border-radius: 5px;
+                            display: inline-block;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="product-card">
+                        <h3>${document.getElementById('previewProductName').textContent}</h3>
+                        <p>${document.getElementById('previewProductDescription').textContent}</p>
+                        <a href="${document.getElementById('previewButton').href}" target="_blank">${document.getElementById('previewButton').textContent}</a>
+                    </div>
+                </body>
+                </html>
+            `;
+
+            // Create a Blob and download it as an HTML file
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'index.html';
+            link.click();
+        }
+    </script>
+
+</body>
+</html>
