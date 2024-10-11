@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sparrow AI - Template Editor</title>
+    <title>Sparrow AI - Online Store Editor</title>
     <style>
         * {
             box-sizing: border-box;
@@ -71,7 +71,7 @@
             background-color: #2563eb;
         }
 
-        .product-editor, .footer-editor {
+        .product-editor, .footer-editor, .navigation-editor {
             margin-top: 30px;
         }
 
@@ -100,6 +100,29 @@
             color: #1e3a8a;
         }
 
+        nav {
+            background-color: #1e40af;
+            padding: 10px 0;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: space-between;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0 10px;
+        }
+
+        nav ul li button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -113,6 +136,14 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+
         footer {
             background-color: #1e3a8a;
             padding: 40px 0;
@@ -123,7 +154,6 @@
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 40px;
         }
-
     </style>
 </head>
 <body>
@@ -151,6 +181,13 @@
             <button onclick="updatePreview()">Update Preview</button>
         </div>
 
+        <!-- Navigation Editor -->
+        <div class="navigation-editor">
+            <label for="navItems">Navigation Items (comma separated)</label>
+            <input type="text" id="navItems" placeholder="Enter navigation items" value="Home, Technology, Fashion, Toys, Travel, Rudeness, Tiny Home">
+            <button onclick="updatePreview()">Update Navigation</button>
+        </div>
+
         <!-- Product Editor -->
         <div class="product-editor">
             <label for="productTitle">Product Title</label>
@@ -159,12 +196,16 @@
             <label for="productDescription">Product Description</label>
             <textarea id="productDescription" placeholder="Enter product description">Voice-controlled home assistant</textarea>
 
+            <label for="productImageUrl">Product Image URL</label>
+            <input type="text" id="productImageUrl" placeholder="Enter product image URL" value="https://via.placeholder.com/300x200">
+
             <label for="productButtonText">Product Button Text</label>
             <input type="text" id="productButtonText" placeholder="Enter product button text" value="View Details on Amazon">
 
             <label for="productButtonUrl">Product Button URL</label>
             <input type="text" id="productButtonUrl" placeholder="Enter product button URL" value="https://www.amazon.com/s?k=smart+speaker">
 
+            <button onclick="addProduct()">Add Product</button>
             <button onclick="updatePreview()">Update Preview</button>
         </div>
 
@@ -188,17 +229,33 @@
                 <h1 id="previewHeaderTitle">Best Price</h1>
                 <input type="text" id="searchInput" placeholder="Search Best Price">
             </header>
+
+            <nav>
+                <ul id="navList">
+                    <li><button>Home</button></li>
+                    <li><button>Technology</button></li>
+                    <li><button>Fashion</button></li>
+                    <li><button>Toys</button></li>
+                    <li><button>Travel</button></li>
+                    <li><button>Rudeness</button></li>
+                    <li><button>Tiny Home</button></li>
+                </ul>
+            </nav>
+
             <div class="banner">
                 <h2 id="previewOfferText">Offer of the Week: 50% off all Electronics!</h2>
                 <button id="previewOfferButton">See Offer</button>
             </div>
-            <main class="product-grid">
+
+            <main class="product-grid" id="productGrid">
                 <div class="product-card">
+                    <img id="previewProductImage" src="https://via.placeholder.com/300x200" alt="Product Image">
                     <h3 id="previewProductTitle">Smart Speaker</h3>
                     <p id="previewProductDescription">Voice-controlled home assistant</p>
-                    <a id="previewProductButton" href="#" target="_blank">View Details on Amazon</a>
+                    <a id="previewProductButton" href="https://www.amazon.com/s?k=smart+speaker" target="_blank">View Details on Amazon</a>
                 </div>
             </main>
+
             <footer>
                 <div class="footer-content">
                     <div>
@@ -220,14 +277,39 @@
         document.getElementById('previewOfferButton').textContent = document.getElementById('offerButtonText').value;
         document.getElementById('previewOfferButton').setAttribute('href', document.getElementById('offerButtonUrl').value);
 
-        // Product
-        document.getElementById('previewProductTitle').textContent = document.getElementById('productTitle').value;
-        document.getElementById('previewProductDescription').textContent = document.getElementById('productDescription').value;
-        document.getElementById('previewProductButton').textContent = document.getElementById('productButtonText').value;
-        document.getElementById('previewProductButton').setAttribute('href', document.getElementById('productButtonUrl').value);
-
         // Footer
         document.getElementById('previewFooterText').textContent = document.getElementById('footerText').value;
+
+        // Navigation
+        const navList = document.getElementById('navList');
+        navList.innerHTML = '';
+        const navItems = document.getElementById('navItems').value.split(',');
+        navItems.forEach(item => {
+            const li = document.createElement('li');
+            li.innerHTML = `<button>${item.trim()}</button>`;
+            navList.appendChild(li);
+        });
+    }
+
+    function addProduct() {
+        const productGrid = document.getElementById('productGrid');
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+
+        const imageUrl = document.getElementById('productImageUrl').value || 'https://via.placeholder.com/300x200';
+        const title = document.getElementById('productTitle').value || 'New Product';
+        const description = document.getElementById('productDescription').value || 'Product description';
+        const buttonText = document.getElementById('productButtonText').value || 'Buy Now';
+        const buttonUrl = document.getElementById('productButtonUrl').value || '#';
+
+        productCard.innerHTML = `
+            <img src="${imageUrl}" alt="${title}">
+            <h3>${title}</h3>
+            <p>${description}</p>
+            <a href="${buttonUrl}" target="_blank">${buttonText}</a>
+        `;
+
+        productGrid.appendChild(productCard);
     }
 
     function downloadHtml() {
@@ -242,27 +324,35 @@
                     body { font-family: Arial, sans-serif; background-color: #f1f5f9; padding: 20px; }
                     header, .banner, footer { padding: 20px; background-color: #1e3a8a; color: white; margin-bottom: 10px; }
                     .banner { background-color: #fbbf24; color: #1e3a8a; }
+                    nav ul { display: flex; justify-content: space-between; list-style-type: none; padding: 0; }
+                    nav ul li { margin: 0 10px; }
                     .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
                     .product-card { background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
+                    .product-card img { width: 100%; height: 200px; object-fit: cover; margin-bottom: 15px; border-radius: 4px; }
                     footer { background-color: #1e3a8a; padding: 40px 0; }
                 </style>
             </head>
             <body>
                 <header>
                     <h1>${document.getElementById('previewHeaderTitle').textContent}</h1>
-                    <input type="text" id="searchInput" placeholder="Search Best Price">
+                    <input type="text" placeholder="Search Best Price">
                 </header>
+
+                <nav>
+                    <ul>
+                        ${document.getElementById('navList').innerHTML}
+                    </ul>
+                </nav>
+
                 <div class="banner">
                     <h2>${document.getElementById('previewOfferText').textContent}</h2>
                     <button>${document.getElementById('previewOfferButton').textContent}</button>
                 </div>
+
                 <main class="product-grid">
-                    <div class="product-card">
-                        <h3>${document.getElementById('previewProductTitle').textContent}</h3>
-                        <p>${document.getElementById('previewProductDescription').textContent}</p>
-                        <a href="${document.getElementById('previewProductButton').href}" target="_blank">${document.getElementById('previewProductButton').textContent}</a>
-                    </div>
+                    ${document.getElementById('productGrid').innerHTML}
                 </main>
+
                 <footer>
                     <div class="footer-content">
                         <div>
@@ -286,4 +376,5 @@
 
 </body>
 </html>
+
 
