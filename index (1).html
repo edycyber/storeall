@@ -1,0 +1,77 @@
+
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Online Store</title>
+                <style>
+                    body { font-family: Arial, sans-serif; background-color: rgb(218, 222, 225); color: rgb(0, 0, 0); background-image: none; background-size: cover; padding: 20px; }
+                    header, .banner, footer { padding: 20px; background-color: #1e3a8a; color: white; margin-bottom: 10px; }
+                    .banner { background-color: #fbbf24; color: #1e3a8a; }
+                    nav ul { display: flex; justify-content: space-between; list-style-type: none; padding: 0; }
+                    nav ul li { margin: 0 10px; }
+                    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+                    .product-card { background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
+                    .product-card img { width: 100%; height: 200px; object-fit: cover; margin-bottom: 15px; border-radius: 4px; }
+                    footer { background-color: #1e3a8a; padding: 40px 0; }
+                </style>
+            </head>
+            <body>
+                <header>
+                    <h1>Best Price</h1>
+                    <input type="text" placeholder="Search Best Price">
+                </header>
+
+                <nav>
+                    <ul>
+                        <li><button onclick="showCategory('Home')" class="">Home</button></li><li><button onclick="showCategory('Tech')" class="">Tech</button></li><li><button onclick="showCategory('Fashion')" class="">Fashion</button></li><li><button onclick="showCategory('Toys')" class="">Toys</button></li><li><button onclick="showCategory('Travel')" class="active">Travel</button></li><li><button onclick="showCategory('Rudeness')" class="">Rudeness</button></li><li><button onclick="showCategory('')"></button></li>
+                    </ul>
+                </nav>
+
+                <div class="banner">
+                    <h2>Offer of the Week: 50% off all Electronics!</h2>
+                    <button>See Offer</button>
+                </div>
+
+                <main class="product-grid">
+                    <div class="product-card">
+                    <img src="https://via.placeholder.com/300x200" alt="Smart Speaker">
+                    <h3>Smart Speaker</h3>
+                    <p>Voice-controlled home assistant</p>
+                    <a href="https://www.amazon.com/s?k=smart+speaker" target="_blank">View Details on Amazon</a>
+                </div><div class="product-card">
+                    <img src="https://via.placeholder.com/300x200" alt="Smart Speaker">
+                    <h3>Smart Speaker</h3>
+                    <p>Voice-controlled home assistant</p>
+                    <a href="https://www.amazon.com/s?k=smart+speaker" target="_blank">View Details on Amazon</a>
+                </div><div class="product-card">
+                    <img src="https://via.placeholder.com/300x200" alt="Smart Speaker">
+                    <h3>Smart Speaker</h3>
+                    <p>Voice-controlled home assistant</p>
+                    <a href="https://www.amazon.com/s?k=smart+speaker" target="_blank">View Details on Amazon</a>
+                </div><div class="product-card">
+                    <img src="https://via.placeholder.com/300x200" alt="Smart Speaker">
+                    <h3>Smart Speaker</h3>
+                    <p>Voice-controlled home assistant</p>
+                    <a href="https://www.amazon.com/s?k=smart+speaker" target="_blank">View Details on Amazon</a>
+                </div><div class="product-card">
+                    <img src="https://via.placeholder.com/300x200" alt="Smart Speaker">
+                    <h3>Smart Speaker</h3>
+                    <p>Voice-controlled home assistant</p>
+                    <a href="https://www.amazon.com/s?k=smart+speaker" target="_blank">View Details on Amazon</a>
+                </div>
+                </main>
+
+                <footer>
+                    <div class="footer-content">
+                        <div>
+                            <h3>About Best Price</h3>
+                            <p>Your one-stop shop for the best deals on everything you need.</p>
+                        </div>
+                    </div>
+                    <p>&copy; 2024 Best Price. All rights reserved.</p>
+                </footer>
+            </body>
+            </html>
+        
