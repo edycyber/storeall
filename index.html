@@ -261,7 +261,6 @@
             <input type="text" id="productButtonUrl" placeholder="Enter product button URL" value="https://www.amazon.com/s?k=smart+speaker">
 
             <button onclick="addProduct()">Add Product</button>
-            <button onclick="updateProduct()">Update Products</button> <!-- Added Update Button -->
         </div>
 
         <!-- Footer Editor -->
@@ -438,15 +437,28 @@
         }
     }
 
-    function updateProduct() {
-        // Ensure the products added in different categories get saved and updated in the preview
-        showCategory(activeCategory); // Update preview with current category products
-    }
-
     function downloadHtml() {
         const bgColor = document.getElementById('bgColor').value;
         const textColor = document.getElementById('textColor').value;
         const bgImageUrl = document.getElementById('bgImageUrl').value;
+
+        const productHtml = Object.keys(products).map(category => {
+            return `
+                <div class="category-section" id="${category}">
+                    <h2>${category}</h2>
+                    <div class="product-grid">
+                        ${products[category].map(product => `
+                            <div class="product-card">
+                                <img src="${product.imageUrl}" alt="${product.title}">
+                                <h3>${product.title}</h3>
+                                <p>${product.description}</p>
+                                <a href="${product.buttonUrl}" target="_blank">${product.buttonText}</a>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }).join('');
 
         const htmlContent = `
             <!DOCTYPE html>
@@ -486,9 +498,7 @@
                     <button>${document.getElementById('previewOfferButton').textContent}</button>
                 </div>
 
-                <main class="product-grid">
-                    ${document.getElementById('productGrid').innerHTML}
-                </main>
+                ${productHtml}
 
                 <footer>
                     <div class="footer-content">
