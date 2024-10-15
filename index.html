@@ -3,32 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sparrow AI - Professional Online Store Editor</title>
+    <title>Amazon Affiliate Store Editor</title>
     <style>
         /* Editor Styles */
-        body {
-            font-family: Arial, sans-serif;
+        body, html {
             margin: 0;
-            padding: 20px;
-            background-color: #f0f0f0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100%;
         }
         .container {
             display: flex;
-            gap: 20px;
+            height: 100%;
         }
-        .editor-container, .preview-container {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .editor-container {
+        .editor-column, .preview-column {
             flex: 1;
+            padding: 20px;
+            overflow-y: auto;
         }
-        .preview-container {
-            flex: 2;
+        .editor-column {
+            background-color: #f0f0f0;
         }
-        .editor, .appearance-editor, .navigation-editor, .product-editor, .footer-editor {
+        .preview-column {
+            background-color: #ffffff;
+            border-left: 1px solid #ccc;
+        }
+        .editor-section {
             margin-bottom: 20px;
         }
         input, select, textarea {
@@ -55,14 +55,14 @@
             font-family: 'Arial', sans-serif;
         }
         #preview header {
-            background-color: #333;
+            background-color: #232f3e;
             color: white;
             padding: 20px;
             text-align: center;
         }
         #preview nav {
-            background-color: #f8f8f8;
-            padding: 10px;
+            background-color: #37475a;
+            padding: 10px 0;
         }
         #preview nav ul {
             list-style-type: none;
@@ -72,22 +72,22 @@
             justify-content: center;
         }
         #preview nav ul li {
-            margin: 0 10px;
+            margin: 0 15px;
         }
         #preview nav ul li a {
             text-decoration: none;
-            color: #333;
+            color: white;
         }
         #preview .banner {
-            background-color: #4CAF50;
+            background-color: #37475a;
             color: white;
             padding: 20px;
             text-align: center;
         }
         #preview .banner a {
             display: inline-block;
-            background-color: white;
-            color: #4CAF50;
+            background-color: #ff9900;
+            color: #111;
             padding: 10px 20px;
             text-decoration: none;
             border-radius: 5px;
@@ -114,21 +114,30 @@
         }
         #preview .product h3 {
             margin: 10px 0;
+            font-size: 1.1em;
         }
         #preview .product p {
             color: #666;
             margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+        #preview .product .price {
+            font-weight: bold;
+            color: #B12704;
+            font-size: 1.2em;
+            margin-bottom: 10px;
         }
         #preview .product a {
             display: inline-block;
-            background-color: #4CAF50;
-            color: white;
+            background-color: #ff9900;
+            color: #111;
             padding: 8px 15px;
             text-decoration: none;
             border-radius: 4px;
+            font-weight: bold;
         }
         #preview footer {
-            background-color: #333;
+            background-color: #232f3e;
             color: white;
             padding: 20px;
             text-align: center;
@@ -136,83 +145,67 @@
     </style>
 </head>
 <body>
-    <h1>Sparrow AI - Professional Online Store Editor</h1>
-
     <div class="container">
-        <div class="editor-container">
-            <h2>Editor</h2>
+        <div class="editor-column">
+            <h2>Amazon Affiliate Store Editor</h2>
 
-            <div class="editor">
-                <h3>Header</h3>
-                <input type="text" id="headerTitle" placeholder="Header Title" value="BestPrice Shop">
-                <input type="text" id="offerBarText" placeholder="Offer Bar Text" value="Limited Time Offer: 50% off all Electronics!">
-                <input type="text" id="offerButtonText" placeholder="Offer Button Text" value="Shop Now">
-                <input type="text" id="offerButtonURL" placeholder="Offer Button URL" value="#">
-                <button onclick="updatePreview()">Update Preview</button>
+            <div class="editor-section">
+                <h3>Store Settings</h3>
+                <input type="text" id="storeName" placeholder="Store Name" value="MyAmazonStore">
+                <input type="text" id="storeDescription" placeholder="Store Description" value="The best products from Amazon, curated just for you!">
+                <button onclick="updateStore()">Update Store</button>
             </div>
 
-            <div class="appearance-editor">
-                <h3>Appearance Settings</h3>
-                <input type="color" id="headerColor" value="#333333">
-                <label for="headerColor">Header Color</label>
-                <input type="color" id="primaryColor" value="#4CAF50">
-                <label for="primaryColor">Primary Color</label>
-                <button onclick="updateAppearance()">Update Appearance</button>
-            </div>
-
-            <div class="navigation-editor">
+            <div class="editor-section">
                 <h3>Navigation</h3>
-                <input type="text" id="navigationItems" placeholder="Navigation Items (comma separated)" value="Home, Electronics, Fashion, Home & Garden, Toys">
+                <input type="text" id="navigationItems" placeholder="Navigation Items (comma separated)" value="Home, Electronics, Fashion, Books, Toys">
                 <button onclick="updateNavigation()">Update Navigation</button>
             </div>
 
-            <div class="product-editor">
+            <div class="editor-section">
                 <h3>Add Product</h3>
                 <select id="productCategory">
                     <option value="Electronics">Electronics</option>
                     <option value="Fashion">Fashion</option>
-                    <option value="Home & Garden">Home & Garden</option>
+                    <option value="Books">Books</option>
                     <option value="Toys">Toys</option>
                 </select>
                 <input type="text" id="productTitle" placeholder="Product Title">
                 <textarea id="productDescription" placeholder="Product Description"></textarea>
                 <input type="text" id="productImageURL" placeholder="Product Image URL">
                 <input type="text" id="productPrice" placeholder="Product Price">
-                <input type="text" id="productButtonText" placeholder="Product Button Text" value="Add to Cart">
+                <input type="text" id="affiliateURL" placeholder="Amazon Affiliate URL">
                 <button onclick="addProduct()">Add Product</button>
             </div>
 
-            <div class="footer-editor">
+            <div class="editor-section">
                 <h3>Footer</h3>
-                <textarea id="footerText" placeholder="Footer Text">© 2024 BestPrice Shop. All rights reserved.</textarea>
+                <textarea id="footerText" placeholder="Footer Text">© 2024 MyAmazonStore. All rights reserved. As an Amazon Associate I earn from qualifying purchases.</textarea>
                 <button onclick="updateFooter()">Update Footer</button>
             </div>
 
-            <button onclick="downloadHTML()">Download Preview as HTML</button>
+            <button onclick="downloadHTML()">Download Store as index.html</button>
         </div>
 
-        <div class="preview-container">
+        <div class="preview-column">
             <h2>Live Preview</h2>
             <div id="preview">
                 <header>
-                    <h1 id="previewHeaderTitle">BestPrice Shop</h1>
+                    <h1 id="previewStoreName">MyAmazonStore</h1>
+                    <p id="previewStoreDescription">The best products from Amazon, curated just for you!</p>
                 </header>
-                <nav id="previewNavigation">
-                    <ul>
+                <nav>
+                    <ul id="previewNavigation">
                         <li><a href="#" onclick="showCategory('Home')">Home</a></li>
                         <li><a href="#" onclick="showCategory('Electronics')">Electronics</a></li>
                         <li><a href="#" onclick="showCategory('Fashion')">Fashion</a></li>
-                        <li><a href="#" onclick="showCategory('Home & Garden')">Home & Garden</a></li>
+                        <li><a href="#" onclick="showCategory('Books')">Books</a></li>
                         <li><a href="#" onclick="showCategory('Toys')">Toys</a></li>
                     </ul>
                 </nav>
-                <div class="banner">
-                    <h2 id="previewOfferText">Limited Time Offer: 50% off all Electronics!</h2>
-                    <a href="#" id="previewOfferButton">Shop Now</a>
-                </div>
                 <div id="productGrid" class="product-grid"></div>
                 <footer id="previewFooter">
-                    <p>© 2024 BestPrice Shop. All rights reserved.</p>
+                    <p>© 2024 MyAmazonStore. All rights reserved. As an Amazon Associate I earn from qualifying purchases.</p>
                 </footer>
             </div>
         </div>
@@ -222,62 +215,47 @@
         let products = {
             'Electronics': [
                 {
-                    title: 'Smart TV',
-                    description: '55" 4K Ultra HD Smart LED TV',
+                    title: 'Smartphone X',
+                    description: 'Latest model with 5G capabilities',
                     imageURL: '/api/placeholder/200/150',
-                    price: '$499.99',
-                    buttonText: 'Add to Cart'
+                    price: '$799.99',
+                    affiliateURL: '#'
                 },
                 {
-                    title: 'Laptop',
-                    description: '15.6" Full HD Laptop, 8GB RAM, 256GB SSD',
+                    title: 'Laptop Pro',
+                    description: '15" laptop with high-performance specs',
                     imageURL: '/api/placeholder/200/150',
-                    price: '$699.99',
-                    buttonText: 'Add to Cart'
+                    price: '$1299.99',
+                    affiliateURL: '#'
                 }
             ],
             'Fashion': [
                 {
-                    title: 'Men\'s Shirt',
-                    description: 'Casual Button-Down Shirt, 100% Cotton',
+                    title: 'Classic T-Shirt',
+                    description: '100% cotton, various colors available',
                     imageURL: '/api/placeholder/200/150',
-                    price: '$29.99',
-                    buttonText: 'Add to Cart'
+                    price: '$19.99',
+                    affiliateURL: '#'
                 },
                 {
-                    title: 'Women\'s Dress',
-                    description: 'Floral Print Maxi Dress, Sleeveless',
+                    title: 'Designer Jeans',
+                    description: 'Slim fit, premium denim',
                     imageURL: '/api/placeholder/200/150',
-                    price: '$39.99',
-                    buttonText: 'Add to Cart'
+                    price: '$79.99',
+                    affiliateURL: '#'
                 }
             ]
         };
 
-        function updatePreview() {
-            document.getElementById('previewHeaderTitle').textContent = document.getElementById('headerTitle').value;
-            document.getElementById('previewOfferText').textContent = document.getElementById('offerBarText').value;
-            document.getElementById('previewOfferButton').textContent = document.getElementById('offerButtonText').value;
-            document.getElementById('previewOfferButton').href = document.getElementById('offerButtonURL').value;
-        }
-
-        function updateAppearance() {
-            const headerColor = document.getElementById('headerColor').value;
-            const primaryColor = document.getElementById('primaryColor').value;
-            
-            const preview = document.getElementById('preview');
-            preview.querySelector('header').style.backgroundColor = headerColor;
-            preview.querySelector('.banner').style.backgroundColor = primaryColor;
-            preview.querySelectorAll('.product a').forEach(button => {
-                button.style.backgroundColor = primaryColor;
-            });
+        function updateStore() {
+            document.getElementById('previewStoreName').textContent = document.getElementById('storeName').value;
+            document.getElementById('previewStoreDescription').textContent = document.getElementById('storeDescription').value;
         }
 
         function updateNavigation() {
             const navItems = document.getElementById('navigationItems').value.split(',').map(item => item.trim());
             const navElement = document.getElementById('previewNavigation');
             navElement.innerHTML = '';
-            const ul = document.createElement('ul');
             navItems.forEach(item => {
                 const li = document.createElement('li');
                 const a = document.createElement('a');
@@ -285,9 +263,8 @@
                 a.textContent = item;
                 a.onclick = () => showCategory(item);
                 li.appendChild(a);
-                ul.appendChild(li);
+                navElement.appendChild(li);
             });
-            navElement.appendChild(ul);
             
             // Update product category options
             const categorySelect = document.getElementById('productCategory');
@@ -309,7 +286,7 @@
                 description: document.getElementById('productDescription').value,
                 imageURL: document.getElementById('productImageURL').value || '/api/placeholder/200/150',
                 price: document.getElementById('productPrice').value,
-                buttonText: document.getElementById('productButtonText').value
+                affiliateURL: document.getElementById('affiliateURL').value
             };
 
             if (!products[category]) {
@@ -339,7 +316,7 @@
                 <h3>${product.title}</h3>
                 <p>${product.description}</p>
                 <p class="price">${product.price}</p>
-                <a href="#">${product.buttonText}</a>
+                <a href="${product.affiliateURL}" target="_blank">Buy on Amazon</a>
             `;
             document.getElementById('productGrid').appendChild(productElement);
         }
@@ -352,28 +329,46 @@
             const previewContent = document.getElementById('preview').innerHTML;
             const styles = document.querySelector('style').textContent;
             const htmlContent = `
-                <!DOCTYPE html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>${document.getElementById('headerTitle').value}</title>
-                    <style>
-                        ${styles}
-                    </style>
-                </head>
-                <body>
-                    <div id="preview">
-                        ${previewContent}
-                    </div>
-                </body>
-                </html>
-            `;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${document.getElementById('storeName').value}</title>
+    <style>
+        ${styles}
+    </style>
+</head>
+<body>
+    <div id="preview">
+        ${previewContent}
+    </div>
+    <script>
+        function showCategory(category) {
+            const productGrid = document.getElementById('productGrid');
+            productGrid.innerHTML = '';
+            
+            if (category === 'Home') {
+                // Show all products
+                productGrid.innerHTML = '${document.getElementById('productGrid').innerHTML}';
+            } else {
+                // Filter products by category
+                const products = Array.from(document.querySelectorAll('.product'));
+                products.forEach(product => {
+                    if (product.querySelector('h3').textContent.includes(category)) {
+                        productGrid.appendChild(product.cloneNode(true));
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>`;
             const blob = new Blob([htmlContent], { type: 'text/html' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'online-store.html';
+            a.download = 'index.html';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
