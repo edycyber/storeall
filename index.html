@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Best Price App</title>
+    <title>Sparrow AI - Online Store Editor</title>
     <style>
         * {
             box-sizing: border-box;
@@ -13,105 +13,120 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f1f5f9;
-            min-height: 100vh;
             display: flex;
             flex-direction: column;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            width: 100%;
-        }
-
-        header {
-            background-color: #1e3a8a;
-            color: white;
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            flex-wrap: wrap;
+            min-height: 100vh;
         }
 
         h1 {
-            font-size: 24px;
-            margin: 0;
+            text-align: center;
+            font-size: 32px;
+            margin: 20px;
         }
 
-        #searchInput {
+        .container {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .editor-container, .preview-container {
+            width: 45%;
+            padding: 20px;
+            background-color: #fff;
+            border: 2px solid #1e40af;
+            border-radius: 8px;
+        }
+
+        .editor {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="color"], textarea, select {
             width: 100%;
-            max-width: 300px;
-            padding: 8px 16px;
-            border-radius: 20px;
-            border: none;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
             background-color: #1e40af;
             color: white;
-            margin-top: 10px;
-        }
-
-        #searchInput::placeholder {
-            color: #93c5fd;
-        }
-
-        nav {
-            background-color: #1e40af;
-        }
-
-        #navList {
-            display: flex;
-            justify-content: space-between;
-            list-style-type: none;
-            padding: 10px 0;
-            margin: 0;
-            flex-wrap: wrap;
-        }
-
-        #navList button {
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-            padding: 5px 10px;
-            margin: 2px;
-        }
-
-        #navList button:hover {
-            background-color: #2563eb;
-        }
-
-        .banner {
-            background-color: #fbbf24;
-            color: #1e3a8a;
-            padding: 20px 0;
-        }
-
-        .banner .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .banner button {
-            background-color: #1e3a8a;
-            color: white;
-            border: none;
             padding: 10px 20px;
+            border: none;
             border-radius: 5px;
             cursor: pointer;
             margin-top: 10px;
         }
 
-        main {
-            padding: 40px 0;
-            flex-grow: 1;
+        button:hover {
+            background-color: #2563eb;
+        }
+
+        .product-editor, .footer-editor, .navigation-editor, .appearance-editor {
+            margin-top: 30px;
+        }
+
+        #download-btn {
+            margin-top: 20px;
+            display: block;
+        }
+
+        .preview-container {
+            padding: 20px;
+        }
+
+        header, .banner, footer {
+            padding: 20px;
+            background-color: #1e3a8a;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        header h1, footer p, footer ul, footer h3, footer a {
+            color: white;
+        }
+
+        .banner {
+            background-color: #fbbf24;
+            color: #1e3a8a;
+        }
+
+        nav {
+            background-color: #1e40af;
+            padding: 10px 0;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: space-between;
+            list-style-type: none;
+            padding: 0;
+            overflow-x: auto;
+        }
+
+        nav ul li {
+            margin: 0 10px;
+        }
+
+        nav ul li button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        nav ul li button.active {
+            background-color: #2563eb;
+            border-radius: 5px;
+            padding: 5px 10px;
         }
 
         .product-grid {
@@ -122,11 +137,9 @@
 
         .product-card {
             background-color: white;
+            padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
         }
 
         .product-card img {
@@ -137,34 +150,8 @@
             border-radius: 4px;
         }
 
-        .product-card h3 {
-            margin: 0 0 10px 0;
-        }
-
-        .product-card p {
-            color: #4b5563;
-            margin-bottom: 15px;
-            flex-grow: 1;
-        }
-
-        .product-card a {
-            display: inline-block;
-            background-color: #3b82f6;
-            color: white;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 5px;
-            text-align: center;
-            transition: background-color 0.3s;
-        }
-
-        .product-card a:hover {
-            background-color: #2563eb;
-        }
-
         footer {
             background-color: #1e3a8a;
-            color: white;
             padding: 40px 0;
         }
 
@@ -174,219 +161,334 @@
             gap: 40px;
         }
 
-        footer h3 {
-            margin-top: 0;
-        }
-
-        footer ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        footer a {
-            color: white;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        .copyright {
-            text-align: center;
-            margin-top: 40px;
-        }
-
         @media (max-width: 768px) {
-            .header-content {
+            .container {
                 flex-direction: column;
-                align-items: stretch;
             }
-
-            #searchInput {
-                max-width: none;
-                margin-top: 15px;
-            }
-
-            .banner .container {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .banner h2 {
-                margin-bottom: 15px;
+            nav ul {
+                flex-direction: row;
+                overflow-x: scroll;
             }
         }
     </style>
 </head>
 <body>
-    <div id="app">
-        <header>
-            <div class="container">
-                <div class="header-content">
-                    <h1>Best Price</h1>
-                    <input type="text" id="searchInput" placeholder="Search Best Price">
-                </div>
-            </div>
-            <nav>
-                <div class="container">
-                    <ul id="navList"></ul>
-                </div>
-            </nav>
-        </header>
 
-        <div class="banner">
-            <div class="container">
-                <h2>Offer of the Week: 50% off all Electronics!</h2>
-                <button>See Offer</button>
-            </div>
+<h1>Sparrow AI - Online Store Editor</h1>
+
+<div class="container">
+    <!-- Editor Section -->
+    <div class="editor-container">
+        <h2>Editor</h2>
+        <!-- Header Editor -->
+        <div class="editor">
+            <label for="headerTitle">Header Title</label>
+            <input type="text" id="headerTitle" placeholder="Enter header title" value="Best Price">
+
+            <label for="offerText">Offer Bar Text</label>
+            <input type="text" id="offerText" placeholder="Enter offer text" value="Offer of the Week: 50% off all Electronics!">
+
+            <label for="offerButtonText">Offer Button Text</label>
+            <input type="text" id="offerButtonText" placeholder="Enter offer button text" value="See Offer">
+
+            <label for="offerButtonUrl">Offer Button URL</label>
+            <input type="text" id="offerButtonUrl" placeholder="Enter offer button URL" value="#">
+
+            <button onclick="updatePreview()">Update Preview</button>
         </div>
 
-        <main class="container">
-            <h2 id="categoryTitle">Home</h2>
-            <div id="productGrid" class="product-grid"></div>
-        </main>
+        <!-- Appearance Editor -->
+        <div class="appearance-editor">
+            <h3>Appearance Settings</h3>
+            <label for="bgColor">Background Color</label>
+            <input type="color" id="bgColor" value="#f1f5f9">
 
-        <footer>
-            <div class="container">
+            <label for="textColor">Text Color</label>
+            <input type="color" id="textColor" value="#000000">
+
+            <label for="bgImageUrl">Background Image URL (Optional)</label>
+            <input type="text" id="bgImageUrl" placeholder="Enter background image URL (optional)">
+
+            <button onclick="updateAppearance()">Update Appearance</button>
+        </div>
+
+        <!-- Navigation Editor -->
+        <div class="navigation-editor">
+            <label for="navItems">Navigation Items (comma separated)</label>
+            <input type="text" id="navItems" placeholder="Enter navigation items" value="Home, Technology, Fashion, Toys, Travel, Rudeness, Tiny Home">
+            <button onclick="updatePreview()">Update Navigation</button>
+        </div>
+
+        <!-- Product Editor -->
+        <div class="product-editor">
+            <label for="productCategory">Product Category</label>
+            <select id="productCategory">
+                <option value="Home">Home</option>
+                <option value="Technology">Technology</option>
+                <option value="Fashion">Fashion</option>
+                <option value="Toys">Toys</option>
+                <option value="Travel">Travel</option>
+                <option value="Rudeness">Rudeness</option>
+                <option value="Tiny Home">Tiny Home</option>
+            </select>
+
+            <label for="productTitle">Product Title</label>
+            <input type="text" id="productTitle" placeholder="Enter product title" value="Smart Speaker">
+
+            <label for="productDescription">Product Description</label>
+            <textarea id="productDescription" placeholder="Enter product description">Voice-controlled home assistant</textarea>
+
+            <label for="productImageUrl">Product Image URL</label>
+            <input type="text" id="productImageUrl" placeholder="Enter product image URL" value="https://via.placeholder.com/300x200">
+
+            <label for="productButtonText">Product Button Text</label>
+            <input type="text" id="productButtonText" placeholder="Enter product button text" value="View Details on Amazon">
+
+            <label for="productButtonUrl">Product Button URL</label>
+            <input type="text" id="productButtonUrl" placeholder="Enter product button URL" value="https://www.amazon.com/s?k=smart+speaker">
+
+            <button onclick="addProduct()">Add Product</button>
+        </div>
+
+        <!-- Footer Editor -->
+        <div class="footer-editor">
+            <label for="footerText">Footer Text</label>
+            <textarea id="footerText">Your one-stop shop for the best deals on everything you need.</textarea>
+
+            <button onclick="updatePreview()">Update Footer</button>
+        </div>
+
+        <!-- Download Button -->
+        <button id="download-btn" onclick="downloadHtml()">Download as index.html</button>
+    </div>
+
+    <!-- Preview Section -->
+    <div class="preview-container">
+        <h2>Live Preview</h2>
+        <div id="preview">
+            <header>
+                <h1 id="previewHeaderTitle">Best Price</h1>
+                <input type="text" id="searchInput" placeholder="Search Best Price">
+            </header>
+
+            <nav>
+                <ul id="navList">
+                    <li><button class="active" onclick="showCategory('Home')">Home</button></li>
+                    <li><button onclick="showCategory('Technology')">Technology</button></li>
+                    <li><button onclick="showCategory('Fashion')">Fashion</button></li>
+                    <li><button onclick="showCategory('Toys')">Toys</button></li>
+                    <li><button onclick="showCategory('Travel')">Travel</button></li>
+                    <li><button onclick="showCategory('Rudeness')">Rudeness</button></li>
+                    <li><button onclick="showCategory('Tiny Home')">Tiny Home</button></li>
+                </ul>
+            </nav>
+
+            <div class="banner">
+                <h2 id="previewOfferText">Offer of the Week: 50% off all Electronics!</h2>
+                <button id="previewOfferButton">See Offer</button>
+            </div>
+
+            <main class="product-grid" id="productGrid">
+                <!-- Products will be dynamically added here -->
+            </main>
+
+            <footer>
                 <div class="footer-content">
                     <div>
                         <h3>About Best Price</h3>
-                        <p>Your one-stop shop for the best deals on everything you need.</p>
-                    </div>
-                    <div>
-                        <h3>Customer Service</h3>
-                        <ul>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Returns & Refunds</a></li>
-                            <li><a href="#">FAQ</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3>Follow Us</h3>
-                        <ul>
-                            <li><a href="#">Facebook</a></li>
-                            <li><a href="#">Twitter</a></li>
-                            <li><a href="#">Instagram</a></li>
-                        </ul>
+                        <p id="previewFooterText">Your one-stop shop for the best deals on everything you need.</p>
                     </div>
                 </div>
-                <div class="copyright">
-                    <p>&copy; 2024 Best Price. All rights reserved.</p>
-                </div>
-            </div>
-        </footer>
+                <p>&copy; 2024 Best Price. All rights reserved.</p>
+            </footer>
+        </div>
     </div>
+</div>
 
-    <script>
-        const products = {
-            Home: [
-                { name: "Smart Speaker", details: "Voice-controlled home assistant", image: "300/200", amazonUrl: "https://www.amazon.com/s?k=smart+speaker" },
-                { name: "Coffee Maker", details: "Programmable, 12-cup capacity", image: "300/200", amazonUrl: "https://www.amazon.com/s?k=coffee+maker" },
-                { name: "Air Purifier", details: "HEPA filter, 3-speed fan", image: "300/200", amazonUrl: "https://www.amazon.com/s?k=air+purifier" },
-            ],
-            Technology: [
-                { name: "Smartphone", details: "Latest model, 5G capable", image: "300/200", amazonUrl: "https://www.amazon.com/s?k=smartphone" },
-                { name: "Laptop", details: "Ultra-thin, 16GB RAM", image: "300/200", amazonUrl: "https://www.amazon.com/s?k=laptop" },
-                { name: "Wireless Earbuds", details: "Noise-cancelling, 24h battery", image: "300/200", amazonUrl: "https://www.amazon.com/s?k=wireless+earbuds" },
-            ],
-            Fashion: [
-                { name: "Denim Jacket", details: "Classic style, all sizes", image: "300/200", amazonUrl: "https://www.amazon.com/s?k=denim+jacket" },
-                { name: "Running Shoes", details: "Lightweight, cushioned sole", image: "300/200", amazonUrl: "https://www.amazon.com/s?k=running+shoes" },
-                { name: "Sunglasses", details: "UV protection, polarized", image: "300/200", amazonUrl: "https://www.amazon.com/s?k=sunglasses" },
-            ],
-            Toys: [
-                { name: "Building Blocks", details: "500 pieces, ages 5+", image: "300/200", amazonUrl: "https://www.amazon.com/s?k=building+blocks" },
-                { name: "Remote Control Car", details: "Off-road capable, rechargeable", image: "300/200", amazonUrl: "https://www.amazon.com/s?k=remote+control+car" },
-                { name: "Board Game", details: "Family-friendly, 2-6 players", image: "300/200", amazonUrl: "https://www.amazon.com/s?k=board+game" },
-            ],
-            Travel: [
-                { name: "Luggage Set", details: "3 pieces, hardshell", image: "300/200", amazonUrl: "https://www.amazon.com/s?k=luggage+set" },
-                { name: "Travel Pillow", details: "Memory foam, machine washable", image: "300/200", amazonUrl: "https://www.amazon.com/s?k=travel+pillow" },
-                { name: "Portable Charger", details: "20000mAh, fast charging", image: "300/200", amazonUrl: "https://www.amazon.com/s?k=portable+charger" },
-            ],
-            Rudeness: [
-                { name: "Joke Book", details: "1001 pranks and gags", image: "300/200", amazonUrl: "https://www.amazon.com/s?k=joke+book" },
-                { name: "Whoopee Cushion", details: "Classic prank item", image: "300/200", amazonUrl: "https://www.amazon.com/s?k=whoopee+cushion" },
-                { name: "Funny T-Shirt", details: "Sarcastic slogans, all sizes", image: "300/200", amazonUrl: "https://www.amazon.com/s?k=funny+t-shirt" },
-            ],
-            'Tiny Home': [
-                { name: "Folding Table", details: "Space-saving, seats 4", image: "300/200", amazonUrl: "https://www.amazon.com/s?k=folding+table" },
-                { name: "Storage Ottoman", details: "Multifunctional furniture", image: "300/200", amazonUrl: "https://www.amazon.com/s?k=storage+ottoman" },
-                { name: "Wall-mounted Desk", details: "Foldable, compact workspace", image: "300/200", amazonUrl: "https://www.amazon.com/s?k=wall+mounted+desk" },
-            ],
-        };
+<script>
+    const products = {
+        'Home': [],
+        'Technology': [],
+        'Fashion': [],
+        'Toys': [],
+        'Travel': [],
+        'Rudeness': [],
+        'Tiny Home': []
+    };
 
-        const navItems = [
-            { name: 'Home', icon: 'home' },
-            { name: 'Technology', icon: 'smartphone' },
-            { name: 'Fashion', icon: 'shopping-bag' },
-            { name: 'Toys', icon: 'truck' },
-            { name: 'Travel', icon: 'plane' },
-            { name: 'Rudeness', icon: 'frown' },
-            { name: 'Tiny Home', icon: 'home' },
-        ];
+    let activeCategory = 'Home';
 
-        let activeTab = 'Home';
-        let searchTerm = '';
+    function updatePreview() {
+        // Header
+        document.getElementById('previewHeaderTitle').textContent = document.getElementById('headerTitle').value;
+        document.getElementById('previewOfferText').textContent = document.getElementById('offerText').value;
+        document.getElementById('previewOfferButton').textContent = document.getElementById('offerButtonText').value;
+        document.getElementById('previewOfferButton').setAttribute('href', document.getElementById('offerButtonUrl').value);
 
-        function initNavigation() {
-            const navList = document.getElementById('navList');
-            navItems.forEach(item => {
-                const li = document.createElement('li');
-                const button = document.createElement('button');
-                button.textContent = item.name;
-                button.onclick = () => setActiveTab(item.name);
-                li.appendChild(button);
-                navList.appendChild(li);
-            });
-        }
+        // Footer
+        document.getElementById('previewFooterText').textContent = document.getElementById('footerText').value;
 
-        function setActiveTab(tabName) {
-            activeTab = tabName;
-            document.getElementById('categoryTitle').textContent = tabName;
-            renderProductGrid();
-        }
+        // Navigation
+        const navList = document.getElementById('navList');
+        navList.innerHTML = '';
+        const navItems = document.getElementById('navItems').value.split(',');
+        navItems.forEach(item => {
+            const trimmedItem = item.trim();
+            const li = document.createElement('li');
+            li.innerHTML = `<button onclick="showCategory('${trimmedItem}')">${trimmedItem}</button>`;
+            navList.appendChild(li);
+            if (!products[trimmedItem]) {
+                products[trimmedItem] = [];  // Add new categories to products object
+            }
+        });
 
-        function renderProductGrid() {
-            const productGrid = document.getElementById('productGrid');
-            productGrid.innerHTML = '';
+        updateProductCategoryDropdown(navItems);
+        showCategory(activeCategory); // Refresh products when navigation updates
+    }
 
-            const filteredProducts = searchTerm
-                ? Object.values(products).flat().filter(product =>
-                    product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    product.details.toLowerCase().includes(searchTerm.toLowerCase())
-                )
-                : products[activeTab];
+    function updateProductCategoryDropdown(navItems) {
+        const categoryDropdown = document.getElementById('productCategory');
+        categoryDropdown.innerHTML = '';
+        navItems.forEach(item => {
+            const option = document.createElement('option');
+            option.value = item.trim();
+            option.textContent = item.trim();
+            categoryDropdown.appendChild(option);
+        });
+    }
 
-            filteredProducts.forEach(product => {
+    function showCategory(category) {
+        activeCategory = category;
+        const productGrid = document.getElementById('productGrid');
+        productGrid.innerHTML = '';
+
+        // Highlight active category
+        const buttons = document.querySelectorAll('nav ul li button');
+        buttons.forEach(button => {
+            button.classList.remove('active');
+            if (button.textContent === category) {
+                button.classList.add('active');
+            }
+        });
+
+        // Display products for the active category
+        if (products[category].length > 0) {
+            products[category].forEach(product => {
                 const productCard = document.createElement('div');
                 productCard.className = 'product-card';
                 productCard.innerHTML = `
-                    <img src="/api/placeholder/${product.image}" alt="${product.name}">
-                    <h3>${product.name}</h3>
-                    <p>${product.details}</p>
-                    <a href="${product.amazonUrl}" target="_blank" rel="noopener noreferrer">View Details on Amazon</a>
+                    <img src="${product.imageUrl}" alt="${product.title}">
+                    <h3>${product.title}</h3>
+                    <p>${product.description}</p>
+                    <a href="${product.buttonUrl}" target="_blank">${product.buttonText}</a>
                 `;
                 productGrid.appendChild(productCard);
             });
+        } else {
+            productGrid.innerHTML = `<p>No products available for this category.</p>`;
         }
+    }
 
-        function initSearchInput() {
-            const searchInput = document.getElementById('searchInput');
-            searchInput.addEventListener('input', (e) => {
-                searchTerm = e.target.value;
-                renderProductGrid();
-            });
+    function addProduct() {
+        const category = document.getElementById('productCategory').value || 'Home';
+        const title = document.getElementById('productTitle').value || 'New Product';
+        const description = document.getElementById('productDescription').value || 'Product description';
+        const imageUrl = document.getElementById('productImageUrl').value || 'https://via.placeholder.com/300x200';
+        const buttonText = document.getElementById('productButtonText').value || 'Buy Now';
+        const buttonUrl = document.getElementById('productButtonUrl').value || '#';
+
+        products[category].push({
+            title,
+            description,
+            imageUrl,
+            buttonText,
+            buttonUrl
+        });
+
+        showCategory(category); // Update the preview with the new product
+    }
+
+    function updateAppearance() {
+        const bgColor = document.getElementById('bgColor').value;
+        const textColor = document.getElementById('textColor').value;
+        const bgImageUrl = document.getElementById('bgImageUrl').value;
+
+        document.getElementById('preview').style.backgroundColor = bgColor;
+        document.getElementById('preview').style.color = textColor;
+
+        if (bgImageUrl) {
+            document.getElementById('preview').style.backgroundImage = `url(${bgImageUrl})`;
+            document.getElementById('preview').style.backgroundSize = 'cover';
+        } else {
+            document.getElementById('preview').style.backgroundImage = 'none';
         }
+    }
 
-        function init() {
-            initNavigation();
-            initSearchInput();
-            renderProductGrid();
-        }
+    function downloadHtml() {
+        const bgColor = document.getElementById('bgColor').value;
+        const textColor = document.getElementById('textColor').value;
+        const bgImageUrl = document.getElementById('bgImageUrl').value;
 
-        document.addEventListener('DOMContentLoaded', init);
-    </script>
+        const htmlContent = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Online Store</title>
+                <style>
+                    body { font-family: Arial, sans-serif; background-color: ${bgColor}; color: ${textColor}; ${bgImageUrl ? `background-image: url(${bgImageUrl}); background-size: cover;` : ''} padding: 20px; }
+                    header, .banner, footer { padding: 20px; background-color: #1e3a8a; color: white; margin-bottom: 10px; }
+                    .banner { background-color: #fbbf24; color: #1e3a8a; }
+                    nav ul { display: flex; justify-content: space-between; list-style-type: none; padding: 0; }
+                    nav ul li { margin: 0 10px; }
+                    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+                    .product-card { background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
+                    .product-card img { width: 100%; height: 200px; object-fit: cover; margin-bottom: 15px; border-radius: 4px; }
+                    footer { background-color: #1e3a8a; padding: 40px 0; }
+                </style>
+            </head>
+            <body>
+                <header>
+                    <h1>${document.getElementById('previewHeaderTitle').textContent}</h1>
+                    <input type="text" placeholder="Search Best Price">
+                </header>
+
+                <nav>
+                    <ul>
+                        ${document.getElementById('navList').innerHTML}
+                    </ul>
+                </nav>
+
+                <div class="banner">
+                    <h2>${document.getElementById('previewOfferText').textContent}</h2>
+                    <button>${document.getElementById('previewOfferButton').textContent}</button>
+                </div>
+
+                <main class="product-grid">
+                    ${document.getElementById('productGrid').innerHTML}
+                </main>
+
+                <footer>
+                    <div class="footer-content">
+                        <div>
+                            <h3>About Best Price</h3>
+                            <p>${document.getElementById('previewFooterText').textContent}</p>
+                        </div>
+                    </div>
+                    <p>&copy; 2024 Best Price. All rights reserved.</p>
+                </footer>
+            </body>
+            </html>
+        `;
+
+        const blob = new Blob([htmlContent], { type: 'text/html' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'index.html';
+        link.click();
+    }
+</script>
+
 </body>
 </html>
